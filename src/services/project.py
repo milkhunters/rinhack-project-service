@@ -1,6 +1,6 @@
 import uuid
 
-from services.repository import ProjectUserRepo
+from src.services.repository import ProjectUserRepo
 from src import exceptions
 from src.models import schemas
 from src.models.permission import Permission
