@@ -25,7 +25,7 @@ class ProjectCreate(BaseModel):
             raise ValueError("Заголовок не может быть пустым")
 
         if len(value) > 64:
-            raise ValueError("Заголовок не может содержать больше 255 символов")
+            raise ValueError("Заголовок не может содержать больше 64 символов")
         return value
 
 
