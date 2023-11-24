@@ -135,10 +135,7 @@ class ProjectApplicationService:
         if project.owner_id != self._current_user.id:
             raise exceptions.AccessDenied("Вы не являетесь владельцем проекта")
 
-        invite = await self._invite_repo.create(
-            project_id=project_id,
-            owner_id=self._current_user.id
-        )
+        invite = await self._invite_repo.create(project_id=project_id)
         return schemas.ProjectInvite.model_validate(invite)
 
     @state_filter(UserState.ACTIVE)

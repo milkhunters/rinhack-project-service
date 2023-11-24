@@ -87,12 +87,12 @@ async def delete_project(project_id: uuid.UUID, services: ServiceFactory = Depen
 
 
 @router.post("/{project_id}/invite", response_model=ProjectInviteResponse, status_code=http_status.HTTP_200_OK)
-async def invite_to_project(
+async def create_project_invite(
         project_id: uuid.UUID,
         services: ServiceFactory = Depends(get_services)
 ):
     """
-    Пригласить пользователя в проект
+    Создать пригласительную ссылку
 
     Требуемое состояние: ACTIVE
 
@@ -105,7 +105,7 @@ async def invite_to_project(
 
 
 @router.get("/{project_id}/invite/list", response_model=ProjectInvitesResponse, status_code=http_status.HTTP_200_OK)
-async def get_project_invite_links(
+async def get_project_invite(
         project_id: uuid.UUID,
         services: ServiceFactory = Depends(get_services)
 ):
@@ -123,7 +123,7 @@ async def get_project_invite_links(
 
 
 @router.delete("/invite/{invite_id}", response_model=None, status_code=http_status.HTTP_204_NO_CONTENT)
-async def delete_project_invite_link(
+async def delete_project_invite(
         invite_id: uuid.UUID,
         services: ServiceFactory = Depends(get_services)
 ):
@@ -139,7 +139,7 @@ async def delete_project_invite_link(
 
 
 @router.post("/invite/{invite_id}/accept", response_model=None, status_code=http_status.HTTP_204_NO_CONTENT)
-async def accept_project_invite_link(
+async def accept_project_invite(
         invite_id: uuid.UUID,
         services: ServiceFactory = Depends(get_services)
 ):
