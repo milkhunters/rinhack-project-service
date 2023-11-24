@@ -35,8 +35,8 @@ class ProjectRepo(BaseRepository[tables.Project]):
             **kwargs
         )
 
-    async def get(self, **kwargs) -> tables.Project: # todo: preload
-        stmt = select(self.table).filter_by(**kwargs).options(subqueryload(self.table.tags))
+    async def get(self, **kwargs) -> tables.Project:
+        stmt = select(self.table).filter_by(**kwargs)
         return (await self._session.execute(stmt)).scalars().first()
 
     async def __get_range(
@@ -70,4 +70,4 @@ class ProjectRepo(BaseRepository[tables.Project]):
             )
 
         result = await self._session.execute(stmt)
-        return result # todo
+        return result.scalars().all()
