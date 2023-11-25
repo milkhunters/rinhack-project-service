@@ -15,6 +15,8 @@ class Project(Base):
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     title = Column(VARCHAR(64), nullable=False)
     owner_id = Column(UUID(as_uuid=True), nullable=False)
+    start_time = Column(DateTime(timezone=True), nullable=True)
+    end_time = Column(DateTime(timezone=True), nullable=True)
     users = relationship("models.tables.project_user.ProjectUser", back_populates="projects")
     invites = relationship("models.tables.project_invite.ProjectInvite", back_populates="projects")
 

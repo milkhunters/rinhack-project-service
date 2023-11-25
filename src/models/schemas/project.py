@@ -8,6 +8,8 @@ class Project(BaseModel):
     id: uuid.UUID
     title: str
     owner_id: uuid.UUID
+    start_time: datetime | None
+    end_time: datetime | None
 
     created_at: datetime
     updated_at: datetime | None
@@ -18,6 +20,8 @@ class Project(BaseModel):
 
 class ProjectCreate(BaseModel):
     title: str
+    start_time: datetime | None = None
+    end_time: datetime | None = None
 
     @field_validator('title')
     def title_must_be_valid(cls, value):
@@ -31,6 +35,8 @@ class ProjectCreate(BaseModel):
 
 class ProjectUpdate(BaseModel):
     title: str = None
+    start_time: datetime | None = None
+    end_time: datetime | None = None
 
     class Config:
         extra = 'ignore'
