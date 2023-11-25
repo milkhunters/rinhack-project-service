@@ -8,11 +8,12 @@ from fastapi import FastAPI
 from grpc import aio
 
 from src.config import Config
-from src.protos.blog_service_control import blog_service_control_pb2_grpc
-from src.services.blog_service_control import BlogService
+from src.protos.project_control import project_control_pb2_grpc
+from src.services.project_control import ProjectService
 
 from src.db import create_psql_async_session
 from src.services.auth.scheduler import update_reauth_list
+
 
 async def init_db(app: FastAPI, config: Config):
     engine, session = create_psql_async_session(
@@ -28,7 +29,7 @@ async def init_db(app: FastAPI, config: Config):
 
 async def grpc_server(app_state):
     server = aio.server()
-    blog_service_control_pb2_grpc.add_BlogServicer_to_server(BlogService(app_state), server)
+    project_control_pb2_grpc.add_ProjectServiceServicer_to_server(ProjectService(app_state), server)
     listen_addr = '[::]:50052'
     server.add_insecure_port(listen_addr)
     logging.info(f"Starting gRPC server on {listen_addr}")

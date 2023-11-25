@@ -61,12 +61,14 @@ class ProjectApplicationService:
                 query=query,
                 fields=["title"],
                 limit=per_page,
-                offset=offset
+                offset=offset,
+                include_user_id=self._current_user.id
             )
         else:
             projects = await self._repo.get_all(
                 limit=per_page,
-                offset=offset
+                offset=offset,
+                include_user_id=self._current_user.id
             )
         return [schemas.Project.model_validate(project) for project in projects]
 

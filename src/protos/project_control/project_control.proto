@@ -2,12 +2,19 @@ syntax = "proto3";
 
 package greet;
 
-
-service Blog {
+service ProjectService {
 	// Unary
+	rpc IsUserInProject (ProjectRequest) returns (IsUserInProjectReply);
 	rpc SendNotification (CreateNotificationRequest) returns (NotificationReply);
+}
 
+message ProjectRequest {
+	string project_id = 1;
+	string user_id = 2;
+}
 
+message IsUserInProjectReply {
+   bool result = 1;
 }
 
 
