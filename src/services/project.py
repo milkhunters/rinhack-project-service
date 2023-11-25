@@ -173,7 +173,7 @@ class ProjectApplicationService:
 
     @state_filter(UserState.ACTIVE)
     @permission_filter(Permission.ACCEPT_INVITE_LINK)
-    async def accept_invite_link(self, invite_id: uuid.UUID) -> None:
+    async def accept_invite_link(self, invite_id: uuid.UUID) -> schemas.Project:
         invite = await self._invite_repo.get(id=invite_id)
         if not invite:
             raise exceptions.NotFound("Приглашение не найдено")
@@ -193,3 +193,4 @@ class ProjectApplicationService:
             project_id=project.id,
             user_id=self._current_user.id
         )
+        return schemas.Project.model_validate(project)

@@ -138,7 +138,7 @@ async def delete_project_invite(
     await services.project.delete_invite_link(invite_id)
 
 
-@router.post("/invite/{invite_id}/accept", response_model=None, status_code=http_status.HTTP_204_NO_CONTENT)
+@router.post("/invite/{invite_id}/accept", response_model=ProjectResponse, status_code=http_status.HTTP_200_OK)
 async def accept_project_invite(
         invite_id: uuid.UUID,
         services: ServiceFactory = Depends(get_services)
@@ -151,4 +151,7 @@ async def accept_project_invite(
     Требуемые права доступа: ACCEPT_INVITE_LINK
 
     """
-    await services.project.accept_invite_link(invite_id)
+    return ProjectResponse(
+        content=await services.project.accept_invite_link(invite_id)
+    )
+
