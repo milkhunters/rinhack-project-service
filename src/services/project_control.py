@@ -1,6 +1,6 @@
 import uuid
 
-from services.repository import ProjectUserRepo
+from src.services.repository import ProjectUserRepo
 from src.models.state import NotificationType
 from src.protos.project_control import project_control_pb2, project_control_pb2_grpc
 from src.services.repository import NotificationRepo
