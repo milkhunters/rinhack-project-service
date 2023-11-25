@@ -1,5 +1,6 @@
-from sqlalchemy import select, text, func, or_, and_
-from sqlalchemy.orm import subqueryload
+import uuid
+
+from sqlalchemy import select, or_, and_
 
 from src.models import tables
 from .base import BaseRepository
@@ -14,6 +15,7 @@ class ProjectRepo(BaseRepository[tables.Project]):
             fields: list[str],
             limit: int = 100,
             offset: int = 0,
+            include_user_id: uuid.UUID = None,
             **kwargs
     ) -> list[tables.Project]:
         return await self.__get_range(
@@ -21,17 +23,20 @@ class ProjectRepo(BaseRepository[tables.Project]):
             fields=fields,
             limit=limit,
             offset=offset,
+            include_user_id=include_user_id,
             **kwargs
         )
 
     async def get_all(
             self, limit: int = 100,
             offset: int = 0,
+            include_user_id: uuid.UUID = None,
             **kwargs
     ) -> list[tables.Project]:
         return await self.__get_range(
             limit=limit,
             offset=offset,
+            include_user_id=include_user_id,
             **kwargs
         )
 
@@ -46,6 +51,7 @@ class ProjectRepo(BaseRepository[tables.Project]):
             fields: list[str] = None,
             limit: int = 100,
             offset: int = 0,
+            include_user_id: uuid.UUID = None,
             **kwargs
     ) -> list[tables.Project]:
 
@@ -54,9 +60,19 @@ class ProjectRepo(BaseRepository[tables.Project]):
             select(
                 self.table
             )
-            .limit(limit)
-            .offset(offset)
         )
+
+        # Выборка
+        if include_user_id:
+            stmt = stmt.join(
+                tables.ProjectUser,
+                self.table.id == tables.ProjectUser.project_id
+            ).where(
+                tables.ProjectUser.user_id == include_user_id
+            )
+
+        # Лимиты и смещения
+        stmt = stmt.limit(limit).offset(offset)
 
         # Фильтры kwargs
         stmt = stmt.where(
