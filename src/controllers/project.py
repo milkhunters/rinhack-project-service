@@ -7,7 +7,7 @@ from src.dependencies.services import get_services
 from src.models import schemas
 from src.services import ServiceFactory
 from src.views import ProjectResponse, ProjectsResponse
-from views.project import ProjectInviteResponse, ProjectInvitesResponse
+from src.views.project import ProjectInviteResponse, ProjectInvitesResponse
 
 router = APIRouter()
 
